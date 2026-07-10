@@ -18,30 +18,9 @@ def search_web(query: str) -> str:
         return "No search query provided."
     return search_engine.invoke(clean_query)
 
-import chromadb
 from langchain_core.tools import tool
 
-client = chromadb.PersistentClient(path="./agent_memory")
-collection = client.get_or_create_collection(name="my_knowledge_base")
-
-@tool
-def search_agent_memory(query: str) -> str:
-    """
-    Use this tool to search the agent's long-term memory or vector database 
-    whenever the user asks about past files, contracts, user preferences, 
-    or historical data that is not in the immediate chat history.
-    """
-    results = collection.query(
-        query_texts=[query],
-        n_results=1  
-    )
-    
-    if results and results['documents'] and results['documents'][0]:
-        return f"Found this relevant context in memory: {results['documents'][0][0]}"
-    
-    return "No relevant information found in memory."
-
-tools = [search_web, search_agent_memory]
+tools = [search_web]
 tools_by_name = {tool.name: tool for tool in tools}
 
 @lru_cache(maxsize=1)
