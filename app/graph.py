@@ -20,32 +20,21 @@ graph_builder.add_node("tool_node", tool_node)
 
 graph_builder.add_edge(START, "classify_intent")
 graph_builder.add_edge("classify_intent", "router")
-graph_builder.add_conditional_edges(
-    "router",
+graph_builder.add_conditional_edges("router",
     lambda state: state.get("route", "help"),
     {
         "help": "helper",
         "research": "researcher"
     }
 )
-graph_builder.add_conditional_edges(
+graph_builder.add_conditional_edges( #this is made , if resercher response is needed tool or not
     "researcher",
     tool_router,
     ["tool_node", END]
 )
-graph_builder.add_conditional_edges(
-    "helper",
-    tool_router,
-    ["tool_node", END]
-)
-graph_builder.add_conditional_edges(
-    "tool_node",
-    lambda state: state.get("route", "help"),
-    {
-        "help": "helper",
-        "research": "researcher"
-    }
-)
+graph_builder.add_edge("helper", END)
+
+graph_builder.add_edge("tool_node", "researcher")
 memory = MemorySaver()
 
 

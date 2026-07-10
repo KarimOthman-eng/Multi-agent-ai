@@ -9,7 +9,7 @@ from langgraph.graph.message import add_messages
 from pydantic import BaseModel, Field
 from langchain_core.messages import AnyMessage
 
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "llama-3.1-8b-instant"
 
 
 @lru_cache(maxsize=1)

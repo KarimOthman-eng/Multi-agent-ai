@@ -1,6 +1,5 @@
 from langchain_core.messages import AnyMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from app.state import get_llm
 from app.state import State
 from app.tools import get_llm_with_tools
 
